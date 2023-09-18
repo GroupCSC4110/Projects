@@ -1,0 +1,89 @@
+body {
+    background-color: rgb(34, 34, 34);
+}
+
+*{
+    margin:0;
+    padding:0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+::-webkit-scrollbar {
+    width: 0.5rem;
+    background: rgba(50, 50, 50, 0);
+}
+::-webkit-scrollbar-thumb {
+    background: rgb(220, 220, 220);
+    border-radius: 2rem;
+}
+::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(165, 165, 165);
+}
+::-webkit-scrollbar-thumb:active {
+    background-color: rgb(110, 110, 110);
+}
+
+.menu li {
+    list-style-type: none; 
+    padding: 1rem;
+    margin: 0.5rem;
+}
+
+.menu a{
+    color: rgb(235, 235, 235);
+    font-size: 1rem;
+}
+
+.menu {
+    padding-right: 0.5rem;
+    display: flex;
+    justify-content: right;
+}
+
+.menu li:hover{
+    background-color: rgb(114, 114, 114);
+}
+
+.title {
+    color: white;
+    font-size: 3rem;
+    text-align: center;
+}
+
+footer {
+    color: rgb(255, 255, 255);
+    text-align: center;
+    width: 80rem;
+    margin: auto;
+    font-size: 0.9rem;
+}
+
+
+.para {
+    color: rgb(255, 255, 255);
+    text-align: center;
+    width: 80rem;
+    margin: auto;
+    font-size: 1.5rem;
+
+}
+
+.images {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    filter: drop-shadow(6px 6px 10px);
+    border-radius: 1.5rem;
+}
+
+hr.rounded {
+    border-top: 8px solid rgb(131, 131, 131);
+    margin:auto;
+    width: 80rem;
+    border-radius: 5rem;
+}
+
+a {
+    color:rgb(0, 183, 207);
+    text-decoration: None;
+}
