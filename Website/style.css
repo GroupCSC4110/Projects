@@ -23,6 +23,38 @@ body {
     background-color: rgb(110, 110, 110);
 }
 
+.social-media-list {
+    position: relative;
+    font-size: 7rem;
+    text-align: center;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0;
+}
+
+.social-media-list li a {
+    color: rgb(137, 211, 230);
+}
+  
+.social-media-list li {
+    position: relative; 
+    display: inline-block;
+    height: 7rem;
+    width: 7rem;
+    margin: 10px 3px;
+    border-radius: 0.5rem;
+    color: #fff;
+    background-color: rgb(51, 51, 51);
+    cursor: pointer; 
+    transition: all .2s ease-in-out;
+}
+  
+
+.social-media-list li:hover {
+    background-color: rgb(68, 90, 95); 
+}
+
+
 .menu li {
     list-style-type: none; 
     padding: 1rem;
@@ -34,11 +66,32 @@ body {
     font-size: 1rem;
 }
 
+
+
 .menu {
     padding-right: 0.5rem;
     display: flex;
     justify-content: right;
 }
+
+
+.footer li {
+    list-style-type: none; 
+    padding: 0.2rem;
+    margin: 0.5rem;
+}
+
+.footer a{
+    color: rgb(235, 235, 235);
+    font-size: 0.7rem;
+}
+
+.footer{
+    color: rgb(235, 235, 235);
+    font-size: 1rem;
+}
+
+
 
 .menu li:hover{
     background-color: rgb(114, 114, 114);
@@ -87,3 +140,4 @@ a {
     color:rgb(0, 183, 207);
     text-decoration: None;
 }
+
