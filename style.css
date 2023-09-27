@@ -132,6 +132,16 @@ footer {
 
 }
 
+/* User-agreement class */
+.user-agreement {
+    color: rgb(255, 255, 255);
+    text-align: left;
+    width: 80rem;
+    margin: auto;
+    font-size: 1.5rem;
+
+}
+
 
 /* Images with class 'images' */
 .images {
