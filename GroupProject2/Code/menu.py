@@ -3,7 +3,7 @@ import tkinter as tk
 
 def start_game():
     # Use subprocess to run your game
-    subprocess.Popen(["python", "Projects\GroupProject2\Code\main.py"])
+    subprocess.Popen(["python", "Projects\GroupProject2\Code\game.py"])
     root.destroy()
 
 def quit_game():
