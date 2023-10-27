@@ -1,8 +1,10 @@
+import subprocess
 import tkinter as tk
 
 def start_game():
-    # Add code here to start your game
-    pass
+    # Use subprocess to run your game
+    subprocess.Popen(["python", "Projects\GroupProject2\Code\main.py"])
+    root.destroy()
 
 def quit_game():
     root.destroy()
