@@ -1,3 +1,4 @@
+import subprocess
 import turtle
 import random
 import math
@@ -53,9 +54,7 @@ enemies = []
 # Add enemies to the list
 for i in range(number_of_enemies):
     # Create the enemy
-    enemies.append(turtle.Turtle())
-
-for enemy in enemies:
+    enemy = turtle.Turtle()
     enemy.color("red")
     enemy.shape("triangle")
     enemy.penup()
@@ -63,8 +62,10 @@ for enemy in enemies:
     x = random.randint(-350, 350)
     y = random.randint(100, 230)
     enemy.setposition(x, y)
+    # Give each enemy their own speed
+    enemy.speed = random.randint(2, 5)
+    enemies.append(enemy)
 
-enemyspeed = 2
 
 # Create the player's bullet
 bullet = turtle.Turtle()
@@ -128,27 +129,17 @@ while True:
     for enemy in enemies:
         # Move the enemy
         x = enemy.xcor()
-        x += enemyspeed
+        x += enemy.speed
         enemy.setx(x)
 
         # Move the enemy back and down
-        if enemy.xcor() > 340:
-            # Move all enemies down
-            for e in enemies:
-                y = e.ycor()
-                y -= 40
-                e.sety(y)
-            # Change enemy direction
-            enemyspeed *= -1
-
-        if enemy.xcor() < -340:
-            # Move all enemies down
-            for e in enemies:
-                y = e.ycor()
-                y -= 40
-                e.sety(y)
-            # Change enemy direction
-            enemyspeed *= -1
+        if enemy.xcor() > 340 or enemy.xcor() < -340:
+            # Move the enemy down
+            y = enemy.ycor()
+            y -= 40
+            enemy.sety(y)
+            # Change this enemy's direction
+            enemy.speed *= -1
 
         # Check for a collision between the bullet and the enemy
         if is_collision(bullet, enemy):
@@ -160,11 +151,6 @@ while True:
             x = random.randint(-350, 350)
             y = random.randint(100, 230)
             enemy.setposition(x, y)
-            # Update the score
-            score += 10
-            scorestring = "Score: %s" % score
-            score_pen.clear()
-            score_pen.write(scorestring, False, align="left", font=("Arial", 14, "normal"))
 
         # Check for a collision between the enemy and the player
         if is_collision(player, enemy):
