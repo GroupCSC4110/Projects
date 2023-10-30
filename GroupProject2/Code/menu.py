@@ -1,6 +1,6 @@
 import subprocess
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk,PhotoImage
 from ttkthemes import ThemedStyle
 from PIL import Image, ImageTk
 
@@ -59,11 +59,9 @@ animation_speed=100
 #label for gif
 gif_label=ttk.Label(root, image=img)
 
-
-
-
 # Create a label for the title
-title_label = ttk.Label(root, text="Star Defender", font=("Helvetica", 24))
+title=PhotoImage(file="GroupProject2/Code/stardefender.png")
+title_label = ttk.Label(root, image=title)
 title_label.pack(pady=20)
 gif_label.pack()
 # Create buttons for starting the game and quitting
