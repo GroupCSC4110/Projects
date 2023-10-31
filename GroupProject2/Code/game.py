@@ -1,95 +1,72 @@
 import turtle
 import random
 
-# Set up the screen
+# set up the screen
 screen = turtle.Screen()
 screen.title("Space Invaders")
 screen.bgpic('Background.gif')
 screen.setup(width=800, height=600)
 
-# Title
-title = turtle.Turtle()
-title.speed(0)
-title.color("white")
-title.penup()
-title.hideturtle()
-title.goto(0, 240)
-title.write("SPACE INVADERS", align="center", font=("Arial", 32, "bold"))
-
-# Start button
-start_button = turtle.Turtle()
-start_button.speed(0)
-start_button.color("green")
-start_button.penup()
-start_button.hideturtle()
-start_button.goto(0, -50)
-start_button.write("START", align="center", font=("Arial", 24, "bold"))
-
-
 character = None  
-
 
 bullets = []
 
-
 enemies = []
 
-# Enemy spawn rate
-enemy_spawn_rate = 200  
-enemy_spawn_timer = enemy_spawn_rate
-
+# spawn rate
+Spawn = 200  
+timer = Spawn
 
 score = 0
 health = 100
 
-# Score display
-score_display = turtle.Turtle()
-score_display.speed(0)
-score_display.color("white")
-score_display.penup()
-score_display.hideturtle()
-score_display.goto(-380, 260)
-score_display.write(f"Score: {score}", align="left", font=("Arial", 16, "normal"))
+# score display
+ShowScore = turtle.Turtle()
+ShowScore.speed(0)
+ShowScore.color("white")
+ShowScore.penup()
+ShowScore.hideturtle()
+ShowScore.goto(-380, 260)
+ShowScore.write(f"Score: {score}", align="left", font=("Arial", 16, "normal"))
 
-# Health bar display
-health_display = turtle.Turtle()
-health_display.speed(0)
-health_display.color("red")
-health_display.penup()
-health_display.hideturtle()
-health_display.goto(380, 260)
-health_display.write(f"Health: {health}%", align="right", font=("Arial", 16, "normal"))
+# health bar
+ShowHealth = turtle.Turtle()
+ShowHealth.speed(0)
+ShowHealth.color("red")
+ShowHealth.penup()
+ShowHealth.hideturtle()
+ShowHealth.goto(380, 260)
+ShowHealth.write(f"Health: {health}%", align="right", font=("Arial", 16, "normal"))
 
 turtle.register_shape("D:\OneDrive\Fall 2023\Software Engineering\TetrisTryout\Character.gif")
-# Function to create the character
-def create_character():
+# create the character
+def charct():
     global character
     character = turtle.Turtle()
     character.shape('D:\OneDrive\Fall 2023\Software Engineering\TetrisTryout\Character.gif')
     character.speed(0)
     character.penup()
     character.goto(0, -250)
-    #character.shapesize(stretch_wid=1, stretch_len=2) 
     character.dx = 20  
 
-# Move the character to the left
-def move_left():
+# move the character to the left
+def left():
     x = character.xcor()
     x -= character.dx
     if x < -380:  
         x = -380
     character.setx(x)
 
-# Move the character to the right
-def move_right():
+# move the character to the right
+def right():
     x = character.xcor()
     x += character.dx
     if x > 380:  
         x = 380
     character.setx(x)
 
-# Function to shoot a bullet
-def shoot_bullet():
+# shoot a bullet
+def shoot():
     bullet = turtle.Turtle()
     bullet.shape("triangle")
     bullet.color("yellow")
@@ -101,33 +78,31 @@ def shoot_bullet():
     bullets.append(bullet)
 
 turtle.register_shape("D:\OneDrive\Fall 2023\Software Engineering\TetrisTryout\Enemies.gif")
-# Function to create an enemy
-def create_enemy():
+# create an enemy
+def enem():
     enemy = turtle.Turtle()
     enemy.shape('D:\OneDrive\Fall 2023\Software Engineering\TetrisTryout\Enemies.gif')
-    #enemy.color("red")
     enemy.speed(0)
     enemy.penup()
     enemy.goto(random.randint(-380, 380), 250)  
     enemy.dy = -5  
     enemies.append(enemy)
 
-# Keyboard binds
+# keyboard binds
 screen.listen()
-screen.onkeypress(move_left, "Left")
-screen.onkeypress(move_right, "Right")
-screen.onkeypress(shoot_bullet, "space")
+screen.onkeypress(left, "Left")
+screen.onkeypress(right, "Right")
+screen.onkeypress(shoot, "space")
 
+charct()
 
-create_character()
-
-# Main game loop
-def play_game():
-    global score, health, enemy_spawn_rate, enemy_spawn_timer
+# main
+def game():
+    global score, health, Spawn, timer
     while True:
         screen.update()
 
-        # Move the bullets
+        # move the bullets
         for bullet in bullets:
             y = bullet.ycor()
             y += bullet.dy
@@ -145,7 +120,7 @@ def play_game():
             y += enemy.dy
             enemy.sety(y)
 
-            # Check for collision between bullets and enemies
+            # check for collision between bullets and enemies
             for bullet in bullets.copy():
                 for enemy in enemies.copy():
                     if enemy.distance(bullet) < 20:  
@@ -153,64 +128,53 @@ def play_game():
                         bullet.hideturtle()
                         enemies.remove(enemy)
                         enemy.hideturtle()
-                        enemy_spawn_rate -= 5  
-                        create_enemy()  
+                        Spawn -= 5  
+                        enem()  
                         score += 10  
-                        score_display.clear()  
-                        score_display.write(f"Score: {score}", align="left", font=("Arial", 16, "normal"))
+                        ShowScore.clear()  
+                        ShowScore.write(f"Score: {score}", align="left", font=("Arial", 16, "normal"))
 
-            # Check if enemies pass the character
+            # check if enemies pass the character
             for enemy in enemies.copy():
                 if enemy.ycor() < character.ycor():
                     health -= 10
-                    health_display.clear()
-                    health_display.write(f"Health: {health}%", align="right", font=("Arial", 16, "normal"))
+                    ShowHealth.clear()
+                    ShowHealth.write(f"Health: {health}%", align="right", font=("Arial", 16, "normal"))
                     enemies.remove(enemy)
                     enemy.hideturtle()
-                    enemy_spawn_rate += 10  
+                    Spawn += 10  
 
-        # Remove enemies that go off-screen
+        # remove enemies that go off screen
         for enemy in enemies.copy():
             if enemy.ycor() < -300:
                 enemies.remove(enemy)
                 enemy.hideturtle()
 
-        # Check if health reaches 0
+        # check if health reaches 0, and end the game
         if health <= 0:
             
-            game_over_display = turtle.Turtle()
-            game_over_display.speed(0)
-            game_over_display.color("red")
-            game_over_display.penup()
-            game_over_display.hideturtle()
-            game_over_display.goto(0, 0)
-            game_over_display.write("GAME OVER", align="center", font=("Arial", 32, "bold"))
+            end = turtle.Turtle()
+            end.speed(0)
+            end.color("red")
+            end.penup()
+            end.hideturtle()
+            end.goto(0, 0)
+            end.write("GAME OVER", align="center", font=("Arial", 32, "bold"))
             break 
 
         
-        enemy_spawn_timer -= 1
+        timer -= 1
 
-        # Create a new enemy when the timer reaches 0 and reset the timer
-        if enemy_spawn_timer <= 0:
-            create_enemy()
-            enemy_spawn_timer = enemy_spawn_rate
+        if timer <= 0:
+            enem()
+            timer = Spawn
 
         # Cap the minimum spawn rate
-        if enemy_spawn_rate < 50:
-            enemy_spawn_rate = 50
+        if Spawn < 50:
+            Spawn = 50
+  
+game()
 
-# Set up the start button click
-def start_game(x, y):
-    # Clear the start button
-    start_button.clear()
-    start_button.hideturtle()
-
-   
-    play_game()
-
-
-screen.onclick(start_game)
-
+screen.onclick(game)
 
 turtle.mainloop()
-
