@@ -7,7 +7,7 @@ screen.title("Space Invaders")
 screen.bgpic('Background.gif')
 screen.setup(width=800, height=600)
 
-# Create the title
+# Title
 title = turtle.Turtle()
 title.speed(0)
 title.color("white")
@@ -16,7 +16,7 @@ title.hideturtle()
 title.goto(0, 240)
 title.write("SPACE INVADERS", align="center", font=("Arial", 32, "bold"))
 
-# Create the start button
+# Start button
 start_button = turtle.Turtle()
 start_button.speed(0)
 start_button.color("green")
@@ -42,7 +42,7 @@ enemy_spawn_timer = enemy_spawn_rate
 score = 0
 health = 100
 
-# Create the score display
+# Score display
 score_display = turtle.Turtle()
 score_display.speed(0)
 score_display.color("white")
@@ -51,7 +51,7 @@ score_display.hideturtle()
 score_display.goto(-380, 260)
 score_display.write(f"Score: {score}", align="left", font=("Arial", 16, "normal"))
 
-# Create the health bar
+# Health bar display
 health_display = turtle.Turtle()
 health_display.speed(0)
 health_display.color("red")
@@ -72,7 +72,7 @@ def create_character():
     #character.shapesize(stretch_wid=1, stretch_len=2) 
     character.dx = 20  
 
-#move the character to the left
+# Move the character to the left
 def move_left():
     x = character.xcor()
     x -= character.dx
@@ -80,7 +80,7 @@ def move_left():
         x = -380
     character.setx(x)
 
-# Function to move the character to the right
+# Move the character to the right
 def move_right():
     x = character.xcor()
     x += character.dx
@@ -112,7 +112,7 @@ def create_enemy():
     enemy.dy = -5  
     enemies.append(enemy)
 
-# Keyboard bindings
+# Keyboard binds
 screen.listen()
 screen.onkeypress(move_left, "Left")
 screen.onkeypress(move_right, "Right")
@@ -175,7 +175,7 @@ def play_game():
                 enemies.remove(enemy)
                 enemy.hideturtle()
 
-        # Check if health reaches 0, and end the game
+        # Check if health reaches 0
         if health <= 0:
             
             game_over_display = turtle.Turtle()
@@ -199,7 +199,7 @@ def play_game():
         if enemy_spawn_rate < 50:
             enemy_spawn_rate = 50
 
-# Set up the start button click event
+# Set up the start button click
 def start_game(x, y):
     # Clear the start button
     start_button.clear()
