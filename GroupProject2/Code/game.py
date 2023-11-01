@@ -179,7 +179,7 @@ def game():
             end.hideturtle()
             end.goto(0, 0)
             end.write("GAME OVER", align="center", font=("Arial", 32, "bold"))
-            subprocess.run(["python", "menu.py"]) 
+            subprocess.run("menu.exe") 
 
         
         timer -= 1
