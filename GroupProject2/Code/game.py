@@ -1,5 +1,6 @@
 import turtle
 import random
+import subprocess
 
 # set up the screen
 screen = turtle.Screen()
@@ -178,7 +179,7 @@ def game():
             end.hideturtle()
             end.goto(0, 0)
             end.write("GAME OVER", align="center", font=("Arial", 32, "bold"))
-            break 
+            subprocess.run(["python", "menu.py"]) 
 
         
         timer -= 1
