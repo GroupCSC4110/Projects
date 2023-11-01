@@ -6,7 +6,7 @@ from PIL import Image, ImageTk
 
 def start_game():
     # Use subprocess to run your game
-    subprocess.Popen(["python", "Projects\GroupProject2\Code\game.py"])
+    subprocess.Popen(["python", "game.py"])
     root.destroy()
 
 def quit_game():
@@ -52,7 +52,7 @@ style.configure("TLabel",
                 padding=(10, 5))     
 
 #make gif work
-animation=Image.open("GroupProject2/Code/1062854907.gif")
+animation=Image.open("Content/1062854907.gif")
 img=ImageTk.PhotoImage(animation)
 animation_speed=100
 
@@ -60,7 +60,7 @@ animation_speed=100
 gif_label=ttk.Label(root, image=img)
 
 # Create a label for the title
-title=PhotoImage(file="GroupProject2/Code/stardefender.png")
+title=PhotoImage(file="Content/stardefender.png")
 title_label = ttk.Label(root, image=title)
 title_label.pack(pady=20)
 gif_label.pack()

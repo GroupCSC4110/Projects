@@ -4,7 +4,7 @@ import random
 # set up the screen
 screen = turtle.Screen()
 screen.title("Space Invaders")
-screen.bgpic('Background.gif')
+screen.bgpic('Content/Background.gif')
 screen.setup(width=800, height=600)
 
 character = None  
@@ -38,12 +38,12 @@ ShowHealth.hideturtle()
 ShowHealth.goto(380, 260)
 ShowHealth.write(f"Health: {health}%", align="right", font=("Arial", 16, "normal"))
 
-turtle.register_shape("D:\OneDrive\Fall 2023\Software Engineering\TetrisTryout\Character.gif")
+turtle.register_shape("Content/Character.gif")
 # create the character
 def charct():
     global character
     character = turtle.Turtle()
-    character.shape('D:\OneDrive\Fall 2023\Software Engineering\TetrisTryout\Character.gif')
+    character.shape('Content/Character.gif')
     character.speed(0)
     character.penup()
     character.goto(0, -250)
@@ -77,11 +77,11 @@ def shoot():
     bullet.dy = 30  
     bullets.append(bullet)
 
-turtle.register_shape("D:\OneDrive\Fall 2023\Software Engineering\TetrisTryout\Enemies.gif")
+turtle.register_shape("Content/Enemies.gif")
 # create an enemy
 def enem():
     enemy = turtle.Turtle()
-    enemy.shape('D:\OneDrive\Fall 2023\Software Engineering\TetrisTryout\Enemies.gif')
+    enemy.shape('Content/Enemies.gif')
     enemy.speed(0)
     enemy.penup()
     enemy.goto(random.randint(-380, 380), 250)  
