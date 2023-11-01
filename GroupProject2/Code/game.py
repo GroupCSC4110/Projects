@@ -38,12 +38,21 @@ ShowHealth.hideturtle()
 ShowHealth.goto(380, 260)
 ShowHealth.write(f"Health: {health}%", align="right", font=("Arial", 16, "normal"))
 
+<<<<<<< Updated upstream
 turtle.register_shape("Content/Character.gif")
 # create the character
 def charct():
     global character
     character = turtle.Turtle()
     character.shape('Content/Character.gif')
+=======
+turtle.register_shape("Character.gif")
+# Function to create the character
+def create_character():
+    global character
+    character = turtle.Turtle()
+    character.shape('Character.gif')
+>>>>>>> Stashed changes
     character.speed(0)
     character.penup()
     character.goto(0, -250)
@@ -77,11 +86,20 @@ def shoot():
     bullet.dy = 30  
     bullets.append(bullet)
 
+<<<<<<< Updated upstream
 turtle.register_shape("Content/Enemies.gif")
 # create an enemy
 def enem():
     enemy = turtle.Turtle()
     enemy.shape('Content/Enemies.gif')
+=======
+turtle.register_shape("Enemies.gif")
+# Function to create an enemy
+def create_enemy():
+    enemy = turtle.Turtle()
+    enemy.shape('Enemies.gif')
+    #enemy.color("red")
+>>>>>>> Stashed changes
     enemy.speed(0)
     enemy.penup()
     enemy.goto(random.randint(-380, 380), 250)  
