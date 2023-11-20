@@ -47,7 +47,7 @@ root.geometry("800x800")
 style=ttk.Style()
 style.theme_use("clam")
 style.configure("TButton", padding=6, relief="flat", background="#FFFDD0")
-style.configure("TLabel", padding=6, background="#F0F0F0")
+style.configure("TLabel", padding=6, background="#FFFDD0",font=("Helvetica", 24))
 style.configure("TFrame", padding=6, background="#FFFDD0")
 style.configure("TEntry", padding=6)
 root.configure(bg="#0089BB")
@@ -59,7 +59,7 @@ image_3 = PhotoImage(file="GroupProject3\code\J_new.png")
 image_4 = PhotoImage(file="GroupProject3\code\HR_new.png")
 
 #labels for images
-label_GD=tk.Label(root, )
+label_title=ttk.Label(root,text="Employee Tracker")
 
 
 # Create a button with the loaded image for graphic design
@@ -77,10 +77,10 @@ button_J= ttk.Button(root, image=image_3, command=janitorial,text="Janitorial",c
 # Create a button with the loaded image
 button_HR= ttk.Button(root, image=image_4, command=Human_resources,text="Human resources",compound=tk.TOP)
 
-
-button_GD.grid(row=0, column=0, padx=10, pady=10)
-button_SD.grid(row=0, column=1, padx=10, pady=10)
-button_J.grid(row=0, column=2, padx=10, pady=10)
-button_HR.grid(row=1, column=0, padx=10, pady=10)
+label_title.grid(row=0, column=1, padx=10, pady=10)
+button_GD.grid(row=1, column=0, padx=10, pady=10)
+button_SD.grid(row=1, column=1, padx=10, pady=10)
+button_J.grid(row=1, column=2, padx=10, pady=10)
+button_HR.grid(row=2, column=0, padx=10, pady=10)
 
 root.mainloop()
