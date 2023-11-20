@@ -12,8 +12,46 @@ def Graphic_desgin():
     new_window_style.configure("TFrame", padding=6, background="#FFFDD0")
     new_window_style.configure("TEntry", padding=6)
     new_window.configure(bg="#0089BB")
-    label = ttk.Label(new_window, text="This is a new window!")
-    label.pack()
+        # Define functions for button actions
+    def add_employee():
+        # Add code here to add a new employee to the tracker
+        pass
+
+    def view_employees():
+        # Add code here to view the list of employees
+        pass
+
+    def search_employee():
+        # Add code here to search for a specific employee
+        pass
+
+    def update_employee():
+        # Add code here to update employee information
+        pass
+
+    def delete_employee():
+        # Add code here to delete an employee from the tracker
+        pass
+
+    # Create buttons for different actions
+    add_button = ttk.Button(new_window, text="Add Employee", command=add_employee)
+    add_button.pack(fill=tk.BOTH, padx=10, pady=5)
+
+    view_button = ttk.Button(new_window, text="View Employees", command=view_employees)
+    view_button.pack(fill=tk.BOTH, padx=10, pady=5)
+
+    search_button = ttk.Button(new_window, text="Search Employee", command=search_employee)
+    search_button.pack(fill=tk.BOTH, padx=10, pady=5)
+
+    update_button = ttk.Button(new_window, text="Update Employee", command=update_employee)
+    update_button.pack(fill=tk.BOTH, padx=10, pady=5)
+
+    delete_button = ttk.Button(new_window, text="Delete Employee", command=delete_employee)
+    delete_button.pack(fill=tk.BOTH, padx=10, pady=5)
+
+    # Create a "Help" button
+    help_button = ttk.Button(new_window, text="About")
+    help_button.pack(fill=tk.BOTH, padx=10, pady=5)
 
 
 def Human_resources():
