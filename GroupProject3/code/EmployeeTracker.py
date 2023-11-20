@@ -18,7 +18,7 @@ def add_employee(role, employees):
             employees.append((name.lower(), role.lower(), employee_number))
             write_to_csv(employees)
             convert_to_json(employees)  # Automatically convert to JSON after adding
-            messagebox.showinfo("Success", f"{name} added successfully to {role}!\nEmployee Number: {employee_number}")
+            messagebox.showinfo("Success", f"{name.title()} added successfully to {role.title()}!\nEmployee Number: {employee_number}")
         else:
             messagebox.showerror("Error", "Invalid characters in the employee name! Only letters are allowed.")
 
@@ -27,9 +27,9 @@ def view_employees(role, employees):
     counter = len(role_employees)
     if role_employees:
         info = "\n".join([f"Name: {name.title()}\nRole: {role.title()}\nEmployee Number: {emp_num}\n{'-'*20}" for name, role, emp_num in role_employees])
-        messagebox.showinfo(f"{role} Employees", f"Total Employees: {counter}\n\n{info}")
+        messagebox.showinfo(f"{role.title()} Employees", f"Total Employees: {counter}\n\n{info}")
     else:
-        messagebox.showinfo(f"{role} Employees", f"No {role} employees found!")
+        messagebox.showinfo(f"{role} Employees", f"No {role.title()} employees found!")
 
 def search_employee(role, employees):
     name = simpledialog.askstring("Input", f"Enter {role} name:")
@@ -39,7 +39,7 @@ def search_employee(role, employees):
             info = "\n".join([f"Name: {name.title()}\nRole: {role.title()}\nEmployee Number: {emp_num}\n{'-'*20}" for name, role, emp_num in search_result])
             messagebox.showinfo("Search Result", info)
         else:
-            messagebox.showinfo("Search Result", f"No {role} employee with the name '{name}' found!")
+            messagebox.showinfo("Search Result", f"No {role.title()} employee with the name '{name.title()}' found!")
 
 def update_employee(role, employees):
     old_name = simpledialog.askstring("Input", f"Enter current {role} name:")
@@ -51,10 +51,10 @@ def update_employee(role, employees):
             for i, emp in enumerate(employees):
                 if emp[0] == old_name_lower and emp[1] == role.lower():
                     # Ask the user which information to update
-                    update_choice = simpledialog.askstring("Input", f"Update name or role for {old_name}?\nEnter 'name' or 'role':")
+                    update_choice = simpledialog.askstring("Input", f"Update name or role for {old_name.title()}?\nEnter 'name' or 'role':")
                     if update_choice is not None:
                         if update_choice.lower() == 'name':
-                            new_name = simpledialog.askstring("Input", f"Enter new {role} name:")
+                            new_name = simpledialog.askstring("Input", f"Enter new {role.title()} name:")
                             if new_name is not None:
                                 employees[i] = (new_name.lower(), role.lower(), emp[2])
                                 write_to_csv(employees)
@@ -71,7 +71,7 @@ def update_employee(role, employees):
                             messagebox.showerror("Error", "Invalid choice. Please enter 'name' or 'role'.")
                     break
         else:
-            messagebox.showinfo("Error", f"No {role} employee with the name '{old_name}' found!")
+            messagebox.showinfo("Error", f"No {role} employee with the name '{old_name.title()}' found!")
 
 def delete_employee(role, employees):
     name = simpledialog.askstring("Input", f"Enter {role} name to delete:")
@@ -82,9 +82,9 @@ def delete_employee(role, employees):
             employees[:] = [emp for emp in employees if not (name_lower in emp and emp[1] == role.lower())]
             write_to_csv(employees)
             convert_to_json(employees)  # Automatically convert to JSON after deleting
-            messagebox.showinfo("Success", f"{name} deleted successfully!")
+            messagebox.showinfo("Success", f"{name.title()} deleted successfully!")
         else:
-            messagebox.showinfo("Error", f"No {role} employee with the name '{name}' found!")
+            messagebox.showinfo("Error", f"No {role.title()} employee with the name '{name.title()}' found!")
 
 def write_to_csv(employees):
     with open('employee_data.csv', 'w', newline='', encoding='utf-8') as csvfile:
