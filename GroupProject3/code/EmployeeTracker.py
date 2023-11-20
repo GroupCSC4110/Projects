@@ -36,7 +36,7 @@ def search_employee(role, employees):
     if name is not None:
         search_result = [(emp[0], emp[1], emp[2]) for emp in employees if name.lower() in emp[0] and emp[1] == role.lower()]
         if search_result:
-            info = "\n".join([f"Name: {name}\nRole: {role}\nEmployee Number: {emp_num}\n{'-'*20}" for name, role, emp_num in search_result])
+            info = "\n".join([f"Name: {name.title()}\nRole: {role.title()}\nEmployee Number: {emp_num}\n{'-'*20}" for name, role, emp_num in search_result])
             messagebox.showinfo("Search Result", info)
         else:
             messagebox.showinfo("Search Result", f"No {role} employee with the name '{name}' found!")
@@ -59,14 +59,14 @@ def update_employee(role, employees):
                                 employees[i] = (new_name.lower(), role.lower(), emp[2])
                                 write_to_csv(employees)
                                 convert_to_json(employees)  # Automatically convert to JSON after updating
-                                messagebox.showinfo("Success", f"{old_name} updated to {new_name} successfully!")
+                                messagebox.showinfo("Success", f"{old_name.title()} updated to {new_name.title()} successfully!")
                         elif update_choice.lower() == 'role':
                             new_role = simpledialog.askstring("Input", f"Enter new role for {old_name}:")
                             if new_role is not None:
                                 employees[i] = (emp[0], new_role.lower(), emp[2])
                                 write_to_csv(employees)
                                 convert_to_json(employees)  # Automatically convert to JSON after updating
-                                messagebox.showinfo("Success", f"Role for {old_name} updated to {new_role} successfully!")
+                                messagebox.showinfo("Success", f"Role for {old_name.title()} updated to {new_role.title()} successfully!")
                         else:
                             messagebox.showerror("Error", "Invalid choice. Please enter 'name' or 'role'.")
                     break
