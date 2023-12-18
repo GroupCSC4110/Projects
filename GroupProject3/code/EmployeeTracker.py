@@ -4,6 +4,31 @@ import csv
 import json
 import random
 
+def read_json_data():
+    try:
+        with open('employee_data.json', 'r') as json_file:
+            data = json.load(json_file)
+            return data.get("employees", [])
+    except FileNotFoundError:
+        return []
+
+def update_data_files():
+    # Update JSON file
+    with open('employee_data.json', 'w') as json_file:
+        json.dump({"employees": employee_data}, json_file, indent=2)
+    
+    # Update CSV file
+    with open('employee_data.csv', 'w', newline='', encoding='utf-8') as csvfile:
+        csv_writer = csv.writer(csvfile)
+        csv_writer.writerow(['Employee Name', 'Role', 'Employee Number'])
+        for emp in employee_data:
+            csv_writer.writerow([emp['name'], emp['role'], emp['employee_number']])
+
+# Initialize employee_data with data from the JSON file
+employee_data = read_json_data()
+
+# Update both JSON and CSV files to ensure they are synchronized
+update_data_files()
 
 def employee_data_editor():
     # Initialize the JSON data with an empty list of employees
