@@ -64,25 +64,18 @@ def employee_data_editor():
         for employee in matching_employees:
             employee_listbox.delete(employee_listbox.get(0, tk.END).index(employee["name"]))
             employee_listbox.insert(0, employee["name"])
-            swap(0, employee_listbox.get(0, tk.END).index(matching_employees[0]["name"]))
-
-    def swap(index1,index2):
-        if 0 <= index1 < len(employee_data) and 0 <= index2 < len(employee_data):
-            employee_data[index1], employee_data[index2] = employee_data[index2]
-            display_employee_list()
-            status_label.config(text="")
-        else:
-            status_label.config(text='')
+            
 
     def delete_entry():
         global selected_employee_index
+        clear_listbox(employee_listbox)
         if selected_employee_index is not None:
             employee_data.pop(selected_employee_index)  # Remove the selected employee
             selected_employee_index = None
             clear_form()
             clear_display()
             display_employee_list()
-            clear_listbox(employee_listbox)
+            
             status_label.config(text="Entry deleted")
 
     def add_employee():
