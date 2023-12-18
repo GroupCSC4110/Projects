@@ -118,14 +118,20 @@ def employee_data_editor():
         data = {}
         for key, entry in entry_widgets.items():
             data[key] = entry.get()
-    
+
         # Check if the selected employee index is available
         global selected_employee_index
+        selected_employee_index = None
         if selected_employee_index is not None:
             # Update the data for the selected employee
             employee_data[selected_employee_index].update(data)
+            selected_employee_index = None  # Reset the selected employee index
         clear_listbox(employee_listbox)
         return data
+
+
+
+
     
     def clear_listbox(listbox):
         listbox.delete(0, tk.END)
