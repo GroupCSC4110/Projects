@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import PhotoImage, ttk, simpledialog, messagebox,scrolledtext
+from tkinter import PhotoImage, ttk, simpledialog, messagebox,scrolledtext,StringVar
 import csv
 import json
 import random
@@ -10,13 +10,13 @@ def employee_data_editor():
     employee_data = []
 
     selected_employee_index = None
-
-    def load_json():
+    def load_json_and_refresh_display():
         try:
             with open('employee_data.json', 'r') as file:
                 data = json.load(file)
+                employees = data.get("employees", [])
                 employee_data.clear()  # Clear the current employee data
-                employee_data.extend(data.get("employees", []))  # Replace it with the loaded data
+                employee_data.extend(employees)  # Replace it with the loaded data
                 display_employee_list()
                 status_label.config(text="Employee data loaded successfully")
         except FileNotFoundError:
@@ -28,13 +28,40 @@ def employee_data_editor():
             clear_display()
             status_label.config(text="Invalid JSON format")
 
+    def load_json():
+        load_json_and_refresh_display()
+
     def save_json():
         try:
+            with open('employee_data.json', 'r') as file:
+                data = json.load(file)
+                data["employees"] = employee_data  # Update the "employees" key with the current employee data
             with open('employee_data.json', 'w') as file:
-                json.dump({"employees": employee_data}, file, indent=4)
+                json.dump(data, file, indent=4)
             status_label.config(text="Employee data saved successfully")
+            load_json_and_refresh_display()
+        except FileNotFoundError:
+            status_label.config(text="File not found: employee_data.json")
         except Exception as e:
             status_label.config(text=f"Error: {str(e)}")
+
+    def search_by_name():
+        name_to_search = role_search_var.get().lower()
+    
+        # Find employees matching the name
+        matching_employees = [employee for employee in employee_data if name_to_search in employee["name"].lower()]
+    
+        # Clear the Listbox
+        employee_listbox.delete(0, tk.END)
+    
+        # Add all employee names to the Listbox
+        for employee in employee_data:
+            employee_listbox.insert(tk.END, employee["name"])
+    
+        # Move the matching employee names to the top of the Listbox
+        for employee in matching_employees:
+            employee_listbox.delete(employee_listbox.get(0, tk.END).index(employee["name"]))
+            employee_listbox.insert(0, employee["name"])
 
     def delete_entry():
         global selected_employee_index
@@ -79,12 +106,24 @@ def employee_data_editor():
         data = {}
         for key, entry in entry_widgets.items():
             data[key] = entry.get()
+    
+        # Check if the selected employee index is available
+        global selected_employee_index
+        if selected_employee_index is not None:
+            # Update the data for the selected employee
+            employee_data[selected_employee_index].update(data)
+    
         return data
 
-    def display_employee_list():
-        employee_listbox.delete(0, tk.END)
-        for index, employee in enumerate(employee_data):
-            employee_listbox.insert(tk.END, f"Employee {index + 1}")
+    def display_employee_list(employees=None):
+        clear_display()
+        employees = employees or employee_data
+        for index, employee in enumerate(employees):
+            employee_listbox.insert(tk.END, employee["name"])
+            json_display.insert(tk.END, f"Employee {index + 1}\n")
+            json_display.insert(tk.END, f"Name: {employee['name']}\n")
+            json_display.insert(tk.END, f"Role: {employee['role']}\n")
+            json_display.insert(tk.END, f"Employee Number: {employee['employee_number']}\n\n")
 
     app = tk.Tk()
     app.title("Employee Data Editor")
@@ -114,6 +153,16 @@ def employee_data_editor():
         entry.grid(column=1, row=form_fields.index((label_text, key)), padx=10, pady=5)
         entry_widgets[key] = entry
 
+
+    role_search_var = StringVar()
+    role_search_label = tk.Label(app, text="Search by Name:")
+    role_search_label.grid(row=len(form_fields)+3, column=0, padx=10, pady=5, sticky="e")
+    role_search_entry = tk.Entry(app, textvariable=role_search_var)
+    role_search_entry.grid(row=len(form_fields)+3, column=1, padx=10, pady=5)
+    role_search_button = tk.Button(app, text="Search", command=search_by_name)
+    role_search_button.grid(row=len(form_fields)+4, column=1, padx=10, pady=5)
+
+
     load_button = ttk.Button(app, text="Load Employee Data", command=load_json)
     load_button.grid(column=0, row=len(form_fields), columnspan=2, padx=10, pady=10)
 
@@ -131,9 +180,10 @@ def employee_data_editor():
     employee_listbox.bind("<<ListboxSelect>>", select_employee)
 
     status_label = ttk.Label(app, text="")
-    status_label.grid(column=0, row=len(form_fields) + 2, columnspan=4, padx=10, pady=5)
+    status_label.grid(column=1, row=len(form_fields) + 4, columnspan=4, padx=10, pady=5)
 
     app.mainloop()
+
 
 
 def generate_employee_number():
