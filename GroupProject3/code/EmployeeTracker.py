@@ -1,8 +1,140 @@
 import tkinter as tk
-from tkinter import PhotoImage, ttk, simpledialog, messagebox
+from tkinter import PhotoImage, ttk, simpledialog, messagebox,scrolledtext
 import csv
 import json
 import random
+
+
+def employee_data_editor():
+    # Initialize the JSON data with an empty list of employees
+    employee_data = []
+
+    selected_employee_index = None
+
+    def load_json():
+        try:
+            with open('employee_data.json', 'r') as file:
+                data = json.load(file)
+                employee_data.clear()  # Clear the current employee data
+                employee_data.extend(data.get("employees", []))  # Replace it with the loaded data
+                display_employee_list()
+                status_label.config(text="Employee data loaded successfully")
+        except FileNotFoundError:
+            clear_form()
+            clear_display()
+            status_label.config(text="File not found: employee_data.json")
+        except json.JSONDecodeError:
+            clear_form()
+            clear_display()
+            status_label.config(text="Invalid JSON format")
+
+    def save_json():
+        try:
+            with open('employee_data.json', 'w') as file:
+                json.dump({"employees": employee_data}, file, indent=4)
+            status_label.config(text="Employee data saved successfully")
+        except Exception as e:
+            status_label.config(text=f"Error: {str(e)}")
+
+    def delete_entry():
+        global selected_employee_index
+        if selected_employee_index is not None:
+            employee_data.pop(selected_employee_index)  # Remove the selected employee
+            selected_employee_index = None
+            clear_form()
+            clear_display()
+            display_employee_list()
+            status_label.config(text="Entry deleted")
+
+    def add_employee():
+        new_employee = extract_data()
+        employee_data.append(new_employee)
+        clear_form()
+        clear_display()
+        display_employee_list()
+        status_label.config(text="Employee added")
+
+    def select_employee(event):
+        global selected_employee_index
+        selected_index = employee_listbox.curselection()
+        if selected_index:
+            selected_employee_index = selected_index[0]
+            selected_employee = employee_data[selected_employee_index]
+            populate_form(selected_employee)
+
+    def clear_form():
+        for entry in entry_widgets.values():
+            entry.delete(0, tk.END)
+
+    def clear_display():
+        json_display.delete(1.0, tk.END)
+
+    def populate_form(employee):
+        clear_form()
+        for key, value in employee.items():
+            if key in entry_widgets:
+                entry_widgets[key].insert(0, value)
+
+    def extract_data():
+        data = {}
+        for key, entry in entry_widgets.items():
+            data[key] = entry.get()
+        return data
+
+    def display_employee_list():
+        employee_listbox.delete(0, tk.END)
+        for index, employee in enumerate(employee_data):
+            employee_listbox.insert(tk.END, f"Employee {index + 1}")
+
+    app = tk.Tk()
+    app.title("Employee Data Editor")
+
+    style = ttk.Style()
+    style.theme_use("clam")
+    style.configure("TButton", padding=6, relief="flat", background="#FFFDD0")
+    style.configure("TLabel", padding=6, background="#FFFDD0", font=("Helvetica", 24))
+    style.configure("TFrame", padding=6, background="#FFFDD0")
+    style.configure("TEntry", padding=6)
+    app.configure(bg="#0089BB")
+
+    entry_widgets = {}
+    json_display = scrolledtext.ScrolledText(app, wrap=tk.WORD, width=50, height=10, font=("Courier New", 12))
+    json_display.grid(column=3, row=0, rowspan=11, padx=10, pady=10)
+
+    form_fields = [
+        ("Employee Number:", "employee_number"),
+        ("Name:", "name"),
+        ("Role:", "role")
+    ]
+
+    for label_text, key in form_fields:
+        label = ttk.Label(app, text=label_text)
+        label.grid(column=0, row=form_fields.index((label_text, key)), padx=10, pady=5)
+        entry = ttk.Entry(app)
+        entry.grid(column=1, row=form_fields.index((label_text, key)), padx=10, pady=5)
+        entry_widgets[key] = entry
+
+    load_button = ttk.Button(app, text="Load Employee Data", command=load_json)
+    load_button.grid(column=0, row=len(form_fields), columnspan=2, padx=10, pady=10)
+
+    save_button = ttk.Button(app, text="Save Employee Data", command=save_json)
+    save_button.grid(column=1, row=len(form_fields), columnspan=2, padx=10, pady=10)
+
+    delete_button = ttk.Button(app, text="Delete Entry", command=delete_entry)
+    delete_button.grid(column=0, row=len(form_fields) + 1, columnspan=2, padx=10, pady=10)
+
+    add_button = ttk.Button(app, text="Add Employee", command=add_employee)
+    add_button.grid(column=1, row=len(form_fields) + 1, columnspan=2, padx=10, pady=10)
+
+    employee_listbox = tk.Listbox(app)
+    employee_listbox.grid(column=2, row=len(form_fields)+2, rowspan=11, padx=10, pady=30)
+    employee_listbox.bind("<<ListboxSelect>>", select_employee)
+
+    status_label = ttk.Label(app, text="")
+    status_label.grid(column=0, row=len(form_fields) + 2, columnspan=4, padx=10, pady=5)
+
+    app.mainloop()
+
 
 def generate_employee_number():
     return str(random.randint(10000, 99999))
@@ -145,6 +277,7 @@ image_2 = PhotoImage(file="./images/SD_new.png")
 image_3 = PhotoImage(file="./images/J_new.png")
 image_4 = PhotoImage(file="./images/HR_new.png")
 image_5 = PhotoImage(file="./images/MK_new.png")
+image_6 = PhotoImage(file="./images/manage.png")
 
 def on_button_click(role):
     employees = read_csv_data()
@@ -157,6 +290,7 @@ button_SD = ttk.Button(root, image=image_2, command=lambda: on_button_click("Sof
 button_J = ttk.Button(root, image=image_3, command=lambda: on_button_click("Janitorial"), text="Janitorial", compound=tk.TOP)
 button_HR = ttk.Button(root, image=image_4, command=lambda: on_button_click("Human Resources"), text="Human Resources", compound=tk.TOP)
 button_MK = ttk.Button(root, image=image_5, command=lambda: on_button_click("Marketing"), text="Marketing", compound=tk.TOP)
+button_M = ttk.Button(root, image=image_6, command=employee_data_editor, text="Manage All", compound=tk.TOP)
 
 label_title.grid(row=0, column=1, padx=10, pady=10)
 button_GD.grid(row=1, column=0, padx=10, pady=10)
@@ -164,6 +298,7 @@ button_SD.grid(row=1, column=1, padx=10, pady=10)
 button_J.grid(row=1, column=2, padx=10, pady=10)
 button_HR.grid(row=2, column=0, padx=10, pady=10)
 button_MK.grid(row=2, column=1, padx=10, pady=10)
+button_M.grid(row=2, column=2, padx=10, pady=10)
 
 # Automatically convert to JSON when the application starts
 convert_to_json(read_csv_data())
