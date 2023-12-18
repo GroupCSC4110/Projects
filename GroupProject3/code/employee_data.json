@@ -1,24 +1,19 @@
 {
-    "employees": [
-        {
-            "employee_number": "11111",
-            "name": "Kevin",
-            "role": "software developers"
-        },
-        {
-            "name": "abdul",
-            "role": "janitorial",
-            "employee_number": "62187"
-        },
-        {
-            "name": "moneer",
-            "role": "software developers",
-            "employee_number": "95752"
-        },
-        {
-            "name": "issa",
-            "role": "graphic design",
-            "employee_number": "66255"
-        }
-    ]
+  "employees": [
+    {
+      "name": "abdul",
+      "role": "janitorial",
+      "employee_number": "62187"
+    },
+    {
+      "name": "moneer",
+      "role": "software developers",
+      "employee_number": "95752"
+    },
+    {
+      "name": "issa",
+      "role": "graphic design",
+      "employee_number": "66255"
+    }
+  ]
 }
