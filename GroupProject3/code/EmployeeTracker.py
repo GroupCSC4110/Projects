@@ -29,6 +29,7 @@ def employee_data_editor():
             status_label.config(text="Invalid JSON format")
 
     def load_json():
+        clear_listbox(employee_listbox)
         load_json_and_refresh_display()
 
     def save_json():
@@ -39,6 +40,7 @@ def employee_data_editor():
             with open('employee_data.json', 'w') as file:
                 json.dump(data, file, indent=4)
             status_label.config(text="Employee data saved successfully")
+            clear_listbox(employee_listbox)
             load_json_and_refresh_display()
         except FileNotFoundError:
             status_label.config(text="File not found: employee_data.json")
@@ -62,6 +64,15 @@ def employee_data_editor():
         for employee in matching_employees:
             employee_listbox.delete(employee_listbox.get(0, tk.END).index(employee["name"]))
             employee_listbox.insert(0, employee["name"])
+            swap(0, employee_listbox.get(0, tk.END).index(matching_employees[0]["name"]))
+
+    def swap(index1,index2):
+        if 0 <= index1 < len(employee_data) and 0 <= index2 < len(employee_data):
+            employee_data[index1], employee_data[index2] = employee_data[index2]
+            display_employee_list()
+            status_label.config(text="")
+        else:
+            status_label.config(text='')
 
     def delete_entry():
         global selected_employee_index
@@ -71,11 +82,12 @@ def employee_data_editor():
             clear_form()
             clear_display()
             display_employee_list()
+            clear_listbox(employee_listbox)
             status_label.config(text="Entry deleted")
 
     def add_employee():
         new_employee = extract_data()
-        employee_data.append(new_employee)
+        employee_data.insert(0, new_employee)
         clear_form()
         clear_display()
         display_employee_list()
@@ -112,8 +124,11 @@ def employee_data_editor():
         if selected_employee_index is not None:
             # Update the data for the selected employee
             employee_data[selected_employee_index].update(data)
-    
+        clear_listbox(employee_listbox)
         return data
+    
+    def clear_listbox(listbox):
+        listbox.delete(0, tk.END)
 
     def display_employee_list(employees=None):
         clear_display()
@@ -155,11 +170,11 @@ def employee_data_editor():
 
 
     role_search_var = StringVar()
-    role_search_label = tk.Label(app, text="Search by Name:")
+    role_search_label = ttk.Label(app, text="Search by Name:")
     role_search_label.grid(row=len(form_fields)+3, column=0, padx=10, pady=5, sticky="e")
-    role_search_entry = tk.Entry(app, textvariable=role_search_var)
+    role_search_entry = ttk.Entry(app, textvariable=role_search_var)
     role_search_entry.grid(row=len(form_fields)+3, column=1, padx=10, pady=5)
-    role_search_button = tk.Button(app, text="Search", command=search_by_name)
+    role_search_button = ttk.Button(app, text="Search", command=search_by_name)
     role_search_button.grid(row=len(form_fields)+4, column=1, padx=10, pady=5)
 
 
