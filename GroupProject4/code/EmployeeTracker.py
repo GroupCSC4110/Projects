@@ -6,6 +6,8 @@ import random
 
 
 def employee_data_editor():
+    """Creates a GUI for managing employee data: loading, saving, editing, and searching employees."""
+
     # Initialize the JSON data with an empty list of employees
     employee_data = []
 
@@ -208,9 +210,19 @@ def employee_data_editor():
 
 
 def generate_employee_number():
+    """Generates a random 5-digit employee number."""
     return str(random.randint(10000, 99999))
 
 def add_employee(role, employees):
+    """
+    Adds a new employee to the given role's employee list.
+
+    Args:
+    - role: Role of the employee being added.
+    - employees: List of employees in the CSV format.
+
+    Prompts the user for employee details and adds them to the employees list.
+    """
     name = simpledialog.askstring("Input", f"Enter {role} name:")
     if name is not None:
         if name.isalpha():
@@ -226,6 +238,15 @@ def add_employee(role, employees):
             messagebox.showerror("Error", "Invalid characters in the employee name! Only letters are allowed.")
 
 def view_employees(role, employees):
+    """
+    Displays a list of employees for a given role.
+
+    Args:
+    - role: Role of the employees being viewed.
+    - employees: List of employees in the CSV format.
+
+    Displays the employee details for the chosen role.
+    """
     role_employees = [(emp[0], emp[1], emp[2]) for emp in employees if emp[1] == role.lower()]
     counter = len(role_employees)
     if role_employees:
@@ -235,6 +256,15 @@ def view_employees(role, employees):
         messagebox.showinfo(f"{role} Employees", f"No {role.title()} employees found!")
 
 def search_employee(role, employees):
+    """
+    Searches for an employee by name within a given role.
+
+    Args:
+    - role: Role of the employee being searched.
+    - employees: List of employees in the CSV format.
+
+    Prompts the user for a name and displays employee details if found.
+    """
     name = simpledialog.askstring("Input", f"Enter {role} name:")
     if name is not None:
         search_result = [(emp[0], emp[1], emp[2]) for emp in employees if name.lower() in emp[0] and emp[1] == role.lower()]
@@ -245,6 +275,15 @@ def search_employee(role, employees):
             messagebox.showinfo("Search Result", f"No {role.title()} employee with the name '{name.title()}' found!")
 
 def update_employee(role, employees):
+    """
+    Updates employee information within a given role.
+
+    Args:
+    - role: Role of the employee being updated.
+    - employees: List of employees in the CSV format.
+
+    Allows the user to update the name or role of an existing employee.
+    """
     old_name = simpledialog.askstring("Input", f"Enter current {role} name:")
     if old_name is not None:
         old_name_lower = old_name.lower()
@@ -277,6 +316,15 @@ def update_employee(role, employees):
             messagebox.showinfo("Error", f"No {role} employee with the name '{old_name.title()}' found!")
 
 def delete_employee(role, employees):
+    """
+    Deletes an employee within a given role.
+
+    Args:
+    - role: Role of the employee being deleted.
+    - employees: List of employees in the CSV format.
+
+    Prompts the user for a name and deletes the employee if found.
+    """
     name = simpledialog.askstring("Input", f"Enter {role} name to delete:")
     if name is not None:
         name_lower = name.lower()
@@ -290,6 +338,14 @@ def delete_employee(role, employees):
             messagebox.showinfo("Error", f"No {role.title()} employee with the name '{name.title()}' found!")
 
 def write_to_csv(employees):
+    """
+    Writes employee data to a CSV file.
+
+    Args:
+    - employees: List of employees in the CSV format.
+
+    Writes the employee details to a CSV file.
+    """
     with open('employee_data.csv', 'w', newline='', encoding='utf-8') as csvfile:
         csv_writer = csv.writer(csvfile)
         csv_writer.writerow(['Employee Name', 'Role', 'Employee Number'])
@@ -297,6 +353,14 @@ def write_to_csv(employees):
             csv_writer.writerow([emp[0], emp[1], emp[2]])
 
 def convert_to_json(employees):
+    """
+    Converts employee data to JSON format.
+
+    Args:
+    - employees: List of employees in the CSV format.
+
+    Converts the employee details to JSON format and saves them to a file.
+    """
     json_data = {
         "employees": [
             {"name": emp[0], "role": emp[1], "employee_number": emp[2]} for emp in employees
@@ -306,6 +370,14 @@ def convert_to_json(employees):
         json.dump(json_data, json_file, indent=2)
 
 def read_csv_data():
+    """
+    Reads employee data from a CSV file.
+
+    Returns:
+    - List of employees in the CSV format.
+
+    Reads the employee details from a CSV file.
+    """
     try:
         with open('employee_data.csv', 'r', newline='', encoding='utf-8') as csvfile:
             csv_reader = csv.reader(csvfile)
@@ -315,6 +387,15 @@ def read_csv_data():
         return []
 
 def generate_role_window(role, employees):
+    """
+    Generates a window for managing employees of a specific role.
+
+    Args:
+    - role: Role of the employees being managed.
+    - employees: List of employees in the CSV format.
+
+    Creates a window to manage employees based on the specified role.
+    """
     role_window = tk.Toplevel(root)
     role_window.title(f"{role} Window")
     role_window.geometry("500x500")
@@ -351,6 +432,15 @@ image_5 = PhotoImage(file="./images/MK_new.png")
 image_6 = PhotoImage(file="./images/manage.png")
 
 def on_button_click(role):
+    """
+    Callback function when a role button is clicked.
+
+    Args:
+    - role: Role associated with the button clicked.
+
+    Generates a new window for the specific role's employees.
+    """
+
     employees = read_csv_data()
     generate_role_window(role, employees)
 
